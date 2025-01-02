@@ -51,11 +51,10 @@
       v-if="displayedData.length > 0"
       v-for="item in displayedData"
       :key="item.id"
-      class="bg-white rounded-lg dark:bg-gray-800 mt-4"
-      :class="{ 'bg-gray-200 dark:bg-gray-700': selectedItem === item }"
-      @click="selectItem(item)"
+      class="bg-white dark:bg-gray-800 mt-4"
+      :class="{ 'bg-gray-200 dark:bg-gray-700': isSelected(item) }"
     >
-      <component :is="itemComponent" :item="item" />
+      <component :is="itemComponent" :item="item" @click.stop="selectItem(item)" />
       <hr v-if="showDivider" class="border-t border-gray-300 dark:border-gray-700" />
     </div>
     <div v-else class="text-center text-gray-500 dark:text-gray-400">
@@ -257,8 +256,17 @@ watch(() => props.currentPage, (newVal) => {
 });
 
 const selectItem = (item) => {
-  emit('update:selectedItem', item);
+  if (props.selectedItem === item) {
+    emit('update:selectedItem', null);
+  } else {
+    emit('update:selectedItem', item);
+  }
 };
+
+const isSelected = (item) => {
+  return props.selectedItem && props.selectedItem.id === item.id;
+};
+
 </script>
 
 <style scoped>

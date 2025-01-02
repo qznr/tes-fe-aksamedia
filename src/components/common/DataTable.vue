@@ -58,11 +58,12 @@
         </tr>
       </thead>
       <tbody class="bg-white border border-black dark:bg-gray-800 dark:border-gray-600">
-        <tr v-for="item in displayedData" :key="item.id" @click="selectItem(item)" :class="{ 'bg-gray-200 dark:bg-gray-700': selectedItem === item }">
+        <tr v-for="item in displayedData" :key="item.id" @click="selectItem(item)" :class="{ 'bg-gray-200 dark:bg-gray-700': isSelected(item) }">
           <td
             v-for="column in columns"
             :key="column.key"
             class="px-6 py-4 whitespace-nowrap text-sm text-gray-900 dark:text-gray-100"
+            @click.stop="selectItem(item)"
           >
             <slot :name="column.key" :item="item" :column="column">{{ item[column.key] }}</slot>
           </td>
@@ -322,8 +323,17 @@ watch(() => props.currentPage, (newVal) => {
 });
 
 const selectItem = (item) => {
-  emit('update:selectedItem', item);
+  if (props.selectedItem === item) {
+    emit('update:selectedItem', null);
+  } else {
+    emit('update:selectedItem', item);
+  }
 };
+
+const isSelected = (item) => {
+  return props.selectedItem && props.selectedItem.id === item.id;
+};
+
 </script>
 
 <style scoped>

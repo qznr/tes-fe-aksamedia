@@ -34,50 +34,28 @@
           </div>
         </div>
 
+        <!-- Bottom right island -->
         <div class="w-full p-4">
-          <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
-            <h3 class="text-lg font-semibold mb-2 dark:text-white text-gray-900">Island Bottom Right</h3>
-            <!-- Display selected employee details -->
-            <div v-if="sharedSelectedItem" class="mt-4">
-              <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ sharedSelectedItem.name }}</h4>
-              <p class="text-sm text-gray-600 dark:text-gray-400">
-                {{ sharedSelectedItem.phone }} - {{ sharedSelectedItem.division.name }} - {{ sharedSelectedItem.position }}
-              </p>
-              <img :src="sharedSelectedItem.image" alt="Employee Image" class="w-10 h-10 rounded-full mr-3">
-            </div>
-            <p v-else class="text-gray-700 dark:text-gray-300">No employee selected.</p>
-          </div>
+          <UpdateDeleteForm :selectedEmployee="sharedSelectedItem" @update="updateEmployee" @delete="deleteEmployee" />
         </div>
       </template>
-        <template v-else-if="isTablet">
+      <template v-else-if="isTablet">
         <!-- Tablet Layout -->
         <!-- Left half: Stacked List -->
         <div class="w-1/2 p-4">
           <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
             <h2 class="text-2xl font-bold mb-4 dark:text-white text-gray-900">Employees</h2>
-              <div class="rounded-lg overflow-hidden">
-                  <StackedList
-                      :data="employees"
-                      :itemComponent="EmployeeItem"
-                      empty-message="No employees available."
-                      :searchable="true"
-                      :searchColumns="['name']"
-                      :filterable="true"
-                      :filterCategories="filterCategories"
-                      :searchQuery="sharedSearchQuery"
-                      :activeFilters="sharedActiveFilters"
-                      :currentPage="sharedCurrentPage"
-                      @update:searchQuery="setSharedSearchQuery"
-                      @update:activeFilters="setSharedActiveFilters"
-                      @update:currentPage="setSharedCurrentPage"
-                      :pageSize="sharedPageSize"
-                      :selectedItem="sharedSelectedItem"
-                      @update:selectedItem="setSharedSelectedItem"
-                    />
-             </div>
-           </div>
+            <div class="rounded-lg overflow-hidden">
+              <StackedList :data="employees" :itemComponent="EmployeeItem" empty-message="No employees available."
+                :searchable="true" :searchColumns="['name']" :filterable="true" :filterCategories="filterCategories"
+                :searchQuery="sharedSearchQuery" :activeFilters="sharedActiveFilters" :currentPage="sharedCurrentPage"
+                @update:searchQuery="setSharedSearchQuery" @update:activeFilters="setSharedActiveFilters"
+                @update:currentPage="setSharedCurrentPage" :pageSize="sharedPageSize" :selectedItem="sharedSelectedItem"
+                @update:selectedItem="setSharedSelectedItem" />
+            </div>
+          </div>
         </div>
-           <!-- Right half: Islands -->
+        <!-- Right half: Islands -->
         <div class="w-1/2 flex flex-col p-4 space-y-4">
           <!-- Top right island -->
           <div class="w-full p-4">
@@ -85,20 +63,11 @@
           </div>
 
           <!-- Bottom right island -->
-          <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
-            <h3 class="text-lg font-semibold mb-2 dark:text-white text-gray-900">Island Bottom Right</h3>
-            <!-- Display selected employee details -->
-            <div v-if="sharedSelectedItem" class="mt-4">
-              <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ sharedSelectedItem.name }}</h4>
-              <p class="text-sm text-gray-600 dark:text-gray-400">
-                {{ sharedSelectedItem.phone }} - {{ sharedSelectedItem.division.name }} - {{ sharedSelectedItem.position }}
-              </p>
-              <img :src="sharedSelectedItem.image" alt="Employee Image" class="w-10 h-10 rounded-full mr-3">
-            </div>
-            <p v-else class="text-gray-700 dark:text-gray-300">No employee selected.</p>
+          <div class="w-full p-4">
+            <UpdateDeleteForm :selectedEmployee="sharedSelectedItem" @update="updateEmployee" @delete="deleteEmployee" />
           </div>
         </div>
-    </template>
+      </template>
       <template v-else>
         <!-- Desktop Layout -->
         <!-- Left half: Table -->
@@ -106,22 +75,12 @@
           <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
             <h2 class="text-2xl font-bold mb-4 dark:text-white text-gray-900">Employees</h2>
             <div class="rounded-lg overflow-hidden">
-              <DataTable 
-                :data="employees"
-                :columns="columns"
-                :searchColumns="['name']"
-                :filterableColumns="['division']"
-                :filterCategories="filterCategories"
-                :searchQuery="sharedSearchQuery"
-                :activeFilters="sharedActiveFilters"
-                :currentPage="sharedCurrentPage"
-                @update:searchQuery="setSharedSearchQuery"
-                @update:activeFilters="setSharedActiveFilters"
-                @update:currentPage="setSharedCurrentPage"
-                :pageSize="sharedPageSize"
-                :selectedItem="sharedSelectedItem"
-                @update:selectedItem="setSharedSelectedItem"
-              >
+              <DataTable :data="employees" :columns="columns" :searchColumns="['name']"
+                :filterableColumns="['division']" :filterCategories="filterCategories" :searchQuery="sharedSearchQuery"
+                :activeFilters="sharedActiveFilters" :currentPage="sharedCurrentPage"
+                @update:searchQuery="setSharedSearchQuery" @update:activeFilters="setSharedActiveFilters"
+                @update:currentPage="setSharedCurrentPage" :pageSize="sharedPageSize" :selectedItem="sharedSelectedItem"
+                @update:selectedItem="setSharedSelectedItem">
                 <template #image="{ item }">
                   <img :src="item.image" alt="Employee Image" class="w-10 h-10 rounded-full">
                 </template>
@@ -150,17 +109,8 @@
           </div>
 
           <!-- Bottom right island -->
-          <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
-            <h3 class="text-lg font-semibold mb-2 dark:text-white text-gray-900">Island Bottom Right</h3>
-            <!-- Display selected employee details -->
-            <div v-if="sharedSelectedItem" class="mt-4">
-              <h4 class="text-lg font-medium text-gray-900 dark:text-white">{{ sharedSelectedItem.name }}</h4>
-              <p class="text-sm text-gray-600 dark:text-gray-400">
-                {{ sharedSelectedItem.phone }} - {{ sharedSelectedItem.division.name }} - {{ sharedSelectedItem.position }}
-              </p>
-              <img :src="sharedSelectedItem.image" alt="Employee Image" class="w-10 h-10 rounded-full mr-3">
-            </div>
-            <p v-else class="text-gray-700 dark:text-gray-300">No employee selected.</p>
+          <div class="w-full p-4">
+            <UpdateDeleteForm :selectedEmployee="sharedSelectedItem" @update="updateEmployee" @delete="deleteEmployee" />
           </div>
         </div>
       </template>
@@ -175,6 +125,7 @@ import DataTable from '../components/common/DataTable.vue';
 import StackedList from '../components/common/StackedList.vue';
 import EmployeeItem from '../components/EmployeeItem.vue';
 import CreateForm from '../components/CreateForm.vue';
+import UpdateDeleteForm from '../components/UpdateDeleteForm.vue';
 import employeesData from '../assets/employees.json';
 import { useLocalStorage } from '../services/localStorageService';
 
@@ -277,15 +228,27 @@ const setSharedCurrentPage = (value) => {
 
 const setSharedSelectedItem = (item) => {
   console.log('Setting shared selected item:', item);
-  sharedState.selectedItem = item;
+  sharedState.selectedItem = item ? { ...item } : null; // maintain reactivity for UpdateDeleteForm
 }
 
 const createEmployee = (newEmployee) => {
   console.log('Creating employee:', newEmployee);
   employees.value.push(newEmployee);
+  sharedState.selectedItem = newEmployee; // set sharedState after creating
+};
+
+const updateEmployee = (updatedEmployee) => {
+  console.log('Updating employee:', updatedEmployee);
+  const index = employees.value.findIndex((e) => e.id === updatedEmployee.id);
+  if (index !== -1) {
+    employees.value.splice(index, 1, updatedEmployee);
+    sharedState.selectedItem = updatedEmployee; // update sharedState
+  }
+};
+
+const deleteEmployee = (employeeId) => {
+  console.log('Deleting employee with ID:', employeeId);
+  employees.value = employees.value.filter((e) => e.id !== employeeId);
+  sharedState.selectedItem = null; // reset sharedState
 };
 </script>
-
-<style scoped>
-
-</style>
