@@ -1,38 +1,27 @@
 <template>
   <div class="overflow-x-auto">
     <div class="mb-4 flex flex-col items-start">
-      <div class="mb-2 flex justify-between items-center">
-        <button
-          @click="clearFilters"
-          class="px-4 py-2 rounded bg-transparent border border-[#8072D0]"
-        >
-          <div class="flex items-center gap-x-2">
-            Clear
-          <ion-icon name="filter"></ion-icon>
-          </div>
-        </button>
-          <input
-            type="text"
-            v-model="searchQuery"
-            placeholder="Search..."
-            class="ml-4 border focus:border-[#8072D0] appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline max-w-xs"
-          />
+      <div class="mb-2 flex justify-start items-center">
+        <input
+          type="text"
+          v-model="searchQuery"
+          placeholder="Search..."
+          class="border focus:border-primary appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
+        />
       </div>
       <div v-if="activeFilters.length > 0" class="flex flex-wrap gap-2">
         <span
           v-for="(filter, index) in activeFilters"
           :key="index"
-          class="inline-flex items-center px-3 py-1 rounded bg-[#8072D0] text-white text-sm"
+          @click="removeFilter(index)"
+          class="inline-flex items-center px-3 py-1 rounded bg-inbetween text-white text-sm cursor-pointer"
         >
           {{ filter.category }}
-           <button @click="removeFilter(index)" class="ml-1 focus:outline-none">
-              <ion-icon name="close-outline" class="text-sm"></ion-icon>
-           </button>
         </span>
       </div>
     </div>
     <table class="min-w-full rounded-lg overflow-hidden border border-black shadow-lg">
-      <thead class="bg-white border border-black dark:bg-gray-700 dark:border-gray-600">
+      <thead class="bg-white border border-black dark:bg-gray-800 dark:border-gray-600">
         <tr>
           <th
             v-for="column in columns"
@@ -42,24 +31,26 @@
           >
             <div class="flex items-center justify-between">
               <span>{{ column.label }}</span>
-              <button
-                v-if="filterableColumns.includes(column.key)"
-                @click="toggleFilterMenu(column.key)"
-                class="focus:outline-none"
-              >
-              <ion-icon name="filter"></ion-icon>
-              </button>
-              <div v-if="isFilterMenuOpen[column.key]" class="absolute z-10 mt-2 w-48 rounded-md shadow-xl bg-white dark:bg-gray-800 ring-1 ring-black ring-opacity-5 focus:outline-none">
-                <div class="py-1">
-                  <button
-                    v-for="category in (filterCategories[column.key].categories ? filterCategories[column.key].categories : filterCategories[column.key])"
-                    :key="category"
-                    @click="applyFilter(column.key, category)"
-                    class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-700 w-full text-left"
-                  >
-                    {{ category }}
-                  </button>
-                </div>
+              <div v-if="filterableColumns.includes(column.key)">
+                <Dropdown :contentClasses="'py-1 bg-white dark:bg-gray-800'">
+                  <template #trigger>
+                    <button
+                      @click="() => {}"
+                      class="focus:outline-none"
+                    >
+                    <ion-icon name="filter" class="text-primary"></ion-icon>
+                    </button>
+                  </template>
+                  <template #content>
+                    <DropdownItem
+                      v-for="category in (filterCategories[column.key].categories ? filterCategories[column.key].categories : filterCategories[column.key])"
+                      :key="category"
+                      @click="applyFilter(column.key, category)"
+                    >
+                      {{ category }}
+                    </DropdownItem>
+                  </template>
+                </Dropdown>
               </div>
             </div>
           </th>
@@ -133,7 +124,7 @@
                       @click="goToPage(page)"
                       :class="[
                         'relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 dark:bg-gray-700 dark:border-gray-600 dark:text-gray-300 dark:hover:bg-gray-600',
-                        { 'z-10 bg-indigo-50 border-indigo-500 text-indigo-600 dark:bg-indigo-900 dark:border-indigo-800 dark:text-indigo-300': currentPage === page },
+                        { 'z-10 bg-primary border-primary text-white dark:bg-primary dark:border-primary dark:text-white': currentPage === page },
                       ]"
                       aria-current="page"
                     >
@@ -162,6 +153,8 @@
 
 <script setup>
 import { defineProps, ref, computed, watch } from 'vue';
+import Dropdown from './Dropdown.vue';
+import DropdownItem from './DropdownItem.vue';
 
 const props = defineProps({
   data: {
@@ -205,14 +198,6 @@ const props = defineProps({
 const searchQuery = ref('');
 const currentPage = ref(1);
 const activeFilters = ref([]); // Array of active filters, e.g., [{ column: 'division', category: 'HR' }]
-const isFilterMenuOpen = ref({}); // Object to track the open state of filter menus
-
-const toggleFilterMenu = (columnKey) => {
-  isFilterMenuOpen.value = {
-    ...isFilterMenuOpen.value,
-    [columnKey]: !isFilterMenuOpen.value[columnKey],
-  };
-};
 
 const applyFilter = (columnKey, category) => {
   const filterExists = activeFilters.value.some(
@@ -221,11 +206,10 @@ const applyFilter = (columnKey, category) => {
   if (!filterExists) {
     activeFilters.value = [...activeFilters.value, { column: columnKey, category }];
   }
-  isFilterMenuOpen.value[columnKey] = false; // Close the menu after applying filter
 };
 
 const removeFilter = (index) => {
-    activeFilters.value.splice(index, 1);
+  activeFilters.value.splice(index, 1);
 };
 
 const clearFilters = () => {
@@ -233,28 +217,28 @@ const clearFilters = () => {
 };
 
 const filteredDataBeforeSearch = computed(() => {
-    if (activeFilters.value.length === 0) {
-        return props.data;
-    }
-    return props.data.filter(item =>
-        activeFilters.value.some(filter => { // Use some for OR logic
-            const filterConfig = props.filterCategories[filter.column];
-            let itemValue;
+  if (activeFilters.value.length === 0) {
+    return props.data;
+  }
+  return props.data.filter(item =>
+    activeFilters.value.some(filter => { // Use some for OR logic
+      const filterConfig = props.filterCategories[filter.column];
+      let itemValue;
 
-            if (Array.isArray(filterConfig)) {
-              // Simple filtering on a direct property
-                itemValue = item[filter.column];
-            } else if (typeof filterConfig === 'object' && filterConfig !== null && filterConfig.key) {
-                // Filtering on a nested property
-                const keys = filterConfig.key.split('.');
-                itemValue = keys.reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : undefined), item);
-            } else {
-                // Fallback or error handling if the configuration is unexpected
-                itemValue = item[filter.column];
-            }
-           return itemValue === filter.category;
-        })
-    );
+      if (Array.isArray(filterConfig)) {
+        // Simple filtering on a direct property
+        itemValue = item[filter.column];
+      } else if (typeof filterConfig === 'object' && filterConfig !== null && filterConfig.key) {
+        // Filtering on a nested property
+        const keys = filterConfig.key.split('.');
+        itemValue = keys.reduce((obj, key) => (obj && obj[key] !== undefined ? obj[key] : undefined), item);
+      } else {
+        // Fallback or error handling if the configuration is unexpected
+        itemValue = item[filter.column];
+      }
+      return itemValue === filter.category;
+    })
+  );
 });
 
 const filteredData = computed(() => {
@@ -304,6 +288,6 @@ watch(filteredData, () => {
 
 <style scoped>
 ion-icon {
-    font-size: 16px;
+  font-size: 16px;
 }
 </style>

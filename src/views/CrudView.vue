@@ -22,12 +22,12 @@
                 :searchable="true"
                 :searchColumns="['name']"
                 :filterable="true"
-                 :filterCategories="{
-                   division: {
-                      categories: ['Mobile Apps', 'QA', 'Full Stack', 'Backend', 'Frontend', 'UI/UX Designer'],
-                       key: 'division.name' // Specify the nested property
-                     },
-                 }"
+                :filterCategories="{
+                  division: {
+                    categories: ['Mobile Apps', 'QA', 'Full Stack', 'Backend', 'Frontend', 'UI/UX Designer'],
+                    key: 'division.name'
+                  },
+                }"
               />
             </div>
           </div>
@@ -40,6 +40,45 @@
           </div>
         </div>
       </template>
+        <template v-else-if="isTablet">
+        <!-- Tablet Layout -->
+        <!-- Left half: Stacked List -->
+        <div class="w-1/2 p-4">
+          <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
+            <h2 class="text-2xl font-bold mb-4 dark:text-white text-gray-900">Employees</h2>
+              <div class="rounded-lg overflow-hidden">
+                  <StackedList
+                      :data="employeesData"
+                      :itemComponent="EmployeeItem"
+                      empty-message="No employees available."
+                      :searchable="true"
+                      :searchColumns="['name']"
+                      :filterable="true"
+                      :filterCategories="{
+                          division: {
+                              categories: ['Mobile Apps', 'QA', 'Full Stack', 'Backend', 'Frontend', 'UI/UX Designer'],
+                              key: 'division.name'
+                            },
+                         }"
+                    />
+             </div>
+           </div>
+        </div>
+           <!-- Right half: Islands -->
+        <div class="w-1/2 flex flex-col p-4 space-y-4">
+          <!-- Top right island -->
+          <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
+            <h3 class="text-lg font-semibold mb-2 dark:text-white text-gray-900">Island Top Right</h3>
+            <p class="text-gray-700 dark:text-gray-300">Placeholder content for the top right island.</p>
+          </div>
+
+          <!-- Bottom right island -->
+          <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
+            <h3 class="text-lg font-semibold mb-2 dark:text-white text-gray-900">Island Bottom Right</h3>
+            <p class="text-gray-700 dark:text-gray-300">Placeholder content for the bottom right island.</p>
+          </div>
+        </div>
+    </template>
       <template v-else>
         <!-- Desktop Layout -->
         <!-- Left half: Table -->
@@ -47,14 +86,14 @@
           <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
             <h2 class="text-2xl font-bold mb-4 dark:text-white text-gray-900">Employees</h2>
             <div class="rounded-lg overflow-hidden">
-              <DataTable :data="employeesData" 
-                :columns="columns" 
+              <DataTable :data="employeesData"
+                :columns="columns"
                 :searchColumns="['name']"
                 :filterableColumns="['division']"
                 :filterCategories="{
                   division: {
                     categories: ['Mobile Apps', 'QA', 'Full Stack', 'Backend', 'Frontend', 'UI/UX Designer'],
-                    key: 'division.name' // Specify the nested property
+                    key: 'division.name'
                   },
                 }"
               >
@@ -106,9 +145,11 @@ import EmployeeItem from '../components/EmployeeItem.vue';
 import employeesData from '../assets/employees.json';
 
 const isMobile = ref(window.innerWidth < 1024); // lg breakpoint in Tailwind
+const isTablet = ref(window.innerWidth >= 1024 && window.innerWidth < 1636); // between lg and 2xl + 100px
 
 const checkScreenSize = () => {
   isMobile.value = window.innerWidth < 1024;
+  isTablet.value = window.innerWidth >= 1024 && window.innerWidth < 1636
 };
 
 onMounted(() => {

@@ -15,7 +15,7 @@
           <div class="mr-4" v-if="user">
             <span class="text-gray-900 dark:text-gray-300">Hi, {{ user.fullName || user.username }}</span>
           </div>
-          <Dropdown :align="right" width="48">
+          <Dropdown :align="right" width="48" :contentClasses="'py-1 bg-white dark:bg-gray-800'">
             <template #trigger>
               <button class="relative rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <span class="sr-only">Open user menu</span>
