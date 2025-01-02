@@ -34,12 +34,18 @@
                   <option value="dark">Dark</option>
                 </select>
               </div>
-              <div class="flex items-center justify-end mt-4">
+              <div class="flex items-center justify-between mt-4 gap-2">
+                <button
+                  @click="resetLocalStorage"
+                  class="bg-red-500 hover:bg-opacity-65 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                >
+                  Reset Data
+                </button>
                 <button
                   @click="saveProfile"
-                  class="bg-black hover:bg-opacity-65 skew-x-[-20deg] text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  class="bg-black hover:bg-opacity-65 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                <div class="skew-x-[20deg]">
+                <div class="">
                   Save
                 </div>
                 </button>
@@ -58,13 +64,14 @@ import { ref, onMounted } from 'vue';
 import { useLocalStorage } from '../services/localStorageService';
 import { useRouter } from 'vue-router';
 import { useTheme } from '../theme/theme'; 
+import employeesData from '../assets/employees.json';
 
-const { getItem, setItem } = useLocalStorage();
+const { getItem, setItem, removeItem } = useLocalStorage();
 const router = useRouter();
 const { theme, updateTheme } = useTheme();
 
 const fullName = ref('');
-const selectedTheme = ref(theme.value); // Initialize selectedTheme with current theme
+const selectedTheme = ref(theme.value);
 
 onMounted(() => {
   const user = getItem('user');
@@ -81,16 +88,23 @@ const saveProfile = () => {
     router.push('/');
   }
 };
+
+const resetLocalStorage = () => {
+  removeItem('employees');
+  removeItem('crudState');
+
+  window.location.href = '/'; // Force reload the app, which will reinitialize everything
+};
 </script>
 
 <style scoped>
 
 .glow {
-  box-shadow: 0 0 20px 5px rgba(173, 216, 230, 0.7); /* Light Blue glow */
+  box-shadow: 0 0 20px 5px rgba(173, 216, 230, 0.7);
 }
 
 .dark .glow {
-  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.3); /* White glow in dark mode */
+  box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.3);
 }
 
 .gradient {

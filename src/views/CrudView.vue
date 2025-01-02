@@ -161,7 +161,7 @@ const sharedState = reactive({
   searchQuery: '',
   activeFilters: [],
   currentPage: 1,
-  pageSize: 10,
+  pageSize: 7,
   selectedItem: null
 });
 
