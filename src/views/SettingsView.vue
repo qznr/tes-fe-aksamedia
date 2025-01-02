@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-dark-bg py-6 flex flex-col justify-center sm:py-12">
+  <div class="min-h-screen bg-white dark:bg-dark-bg py-6 flex flex-col justify-center sm:py-12 dots">
     <div class="relative py-3 sm:max-w-xl sm:mx-auto">
 
       <div class="absolute inset-0 gradient shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl glow"></div>
@@ -15,6 +15,7 @@
                 <input
                   id="fullName"
                   v-model="fullName"
+                  placeholder="Ketik nama kamu"
                   type="text"
                   class="w-full px-4 py-2 border border-gray-900 rounded-md focus:ring-2 focus:ring-indigo-200 focus:outline-none bg-transparent text-gray-900"
                 />
@@ -95,5 +96,4 @@ const saveProfile = () => {
 .gradient {
   background-image: linear-gradient(135deg, #DE78DE, #78ABDE, #78DE78);
 }
-
 </style>

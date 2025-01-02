@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-white dark:bg-dark-bg">
+  <div class="min-h-screen bg-white dark:bg-dark-bg dots">
     <div class="min-h-screen flex items-center justify-center">
 
       <!-- Card Container (Desktop/Tablet) -->
@@ -65,15 +65,6 @@ onUnmounted(() => {
 
 .dark .glow {
   box-shadow: 0 0 20px 5px rgba(255, 255, 255, 0.3); /* White glow in dark mode */
-}
-
-.bg-white {
-  background-image: radial-gradient(#00000050 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-
-.dark .bg-white {
-  background-image: radial-gradient(#ffffff50 1px, transparent 1px);
 }
 
 /* Tablet Specific Styles */
