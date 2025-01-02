@@ -52,6 +52,8 @@
       v-for="item in displayedData"
       :key="item.id"
       class="bg-white rounded-lg dark:bg-gray-800 mt-4"
+      :class="{ 'bg-gray-200 dark:bg-gray-700': selectedItem === item }"
+      @click="selectItem(item)"
     >
       <component :is="itemComponent" :item="item" />
       <hr v-if="showDivider" class="border-t border-gray-300 dark:border-gray-700" />
@@ -147,10 +149,14 @@ const props = defineProps({
   currentPage: {
     type: Number,
     default: 1
+  },
+  selectedItem: {
+    type: Object,
+    default: null
   }
 });
 
-const emit = defineEmits(['update:searchQuery', 'update:activeFilters', 'update:currentPage']);
+const emit = defineEmits(['update:searchQuery', 'update:activeFilters', 'update:currentPage', 'update:selectedItem']);
 
 const currentPage = ref(props.currentPage);
 const searchQuery = ref(props.searchQuery);
@@ -249,6 +255,10 @@ watch(() => props.activeFilters, (newVal) => {
 watch(() => props.currentPage, (newVal) => {
   currentPage.value = newVal;
 });
+
+const selectItem = (item) => {
+  emit('update:selectedItem', item);
+};
 </script>
 
 <style scoped>

@@ -58,7 +58,7 @@
         </tr>
       </thead>
       <tbody class="bg-white border border-black dark:bg-gray-800 dark:border-gray-600">
-        <tr v-for="item in displayedData" :key="item.id">
+        <tr v-for="item in displayedData" :key="item.id" @click="selectItem(item)" :class="{ 'bg-gray-200 dark:bg-gray-700': selectedItem === item }">
           <td
             v-for="column in columns"
             :key="column.key"
@@ -205,10 +205,14 @@ const props = defineProps({
   currentPage: {
     type: Number,
     default: 1
+  },
+  selectedItem: {
+    type: Object,
+    default: null
   }
 });
 
-const emit = defineEmits(['update:searchQuery', 'update:activeFilters', 'update:currentPage']);
+const emit = defineEmits(['update:searchQuery', 'update:activeFilters', 'update:currentPage', 'update:selectedItem']);
 
 const searchQuery = ref(props.searchQuery);
 const currentPage = ref(props.currentPage);
@@ -316,6 +320,10 @@ watch(() => props.activeFilters, (newVal) => {
 watch(() => props.currentPage, (newVal) => {
   currentPage.value = newVal;
 });
+
+const selectItem = (item) => {
+  emit('update:selectedItem', item);
+};
 </script>
 
 <style scoped>
