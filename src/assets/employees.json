@@ -1,0 +1,79 @@
+[
+    {
+        "id": "uuid-pegawai-1",
+        "image": "https://i.pravatar.cc/100?1",
+        "name": "Nama Pegawai Satu",
+        "phone": "123-456-7890",
+        "division": {
+            "id": "uuid-divisi-alpha",
+            "name": "Mobile Apps"
+        },
+        "position": "Senior Developer"
+    },
+    {
+        "id": "uuid-pegawai-2",
+        "image": "https://i.pravatar.cc/100?2",
+        "name": "Nama Pegawai Dua",
+        "phone": "987-654-3210",
+        "division": {
+            "id": "uuid-divisi-beta",
+            "name": "QA"
+        },
+        "position": "Project Manager"
+    },
+    {
+        "id": "uuid-pegawai-3",
+        "image": "https://i.pravatar.cc/100?3",
+        "name": "Nama Pegawai Tiga",
+        "phone": "456-789-1230",
+        "division": {
+            "id": "uuid-divisi-gamma",
+            "name": "Full Stack"
+        },
+        "position": "Full Stack Engineer"
+    },
+    {
+        "id": "uuid-pegawai-4",
+        "image": "https://i.pravatar.cc/100?4",
+        "name": "Nama Pegawai Empat",
+        "phone": "654-321-9870",
+        "division": {
+            "id": "uuid-divisi-delta",
+            "name": "Backend"
+        },
+        "position": "Backend Developer"
+    },
+    {
+        "id": "uuid-pegawai-5",
+        "image": "https://i.pravatar.cc/100?5",
+        "name": "Nama Pegawai Lima",
+        "phone": "321-654-9870",
+        "division": {
+            "id": "uuid-divisi-epsilon",
+            "name": "Frontend"
+        },
+        "position": "Frontend Developer"
+    },
+    {
+        "id": "uuid-pegawai-6",
+        "image": "https://i.pravatar.cc/100?6",
+        "name": "Nama Pegawai Enam",
+        "phone": "789-123-4560",
+        "division": {
+            "id": "uuid-divisi-zeta",
+            "name": "UI/UX Designer"
+        },
+        "position": "UI/UX Designer"
+    },
+    {
+        "id": "uuid-pegawai-7",
+        "image": "https://i.pravatar.cc/100?7",
+        "name": "Nama Pegawai Tujuh",
+        "phone": "987-123-6540",
+        "division": {
+            "id": "uuid-divisi-eta",
+            "name": "Mobile Apps"
+        },
+        "position": "Junior Developer"
+    }
+]

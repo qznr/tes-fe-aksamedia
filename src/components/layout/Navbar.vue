@@ -1,5 +1,5 @@
 <template>
-  <nav class="bg-white dark:bg-[#3D3D7A] drop-shadow-lg">
+  <nav class="bg-[#8072D0] dark:bg-[#3D3D7A] drop-shadow-lg">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-16">
         <div class="flex items-center">
@@ -13,13 +13,13 @@
         <!-- Desktop view (>= 992px) -->
         <div class="hidden lg:flex items-center ml-4 lg:ml-6">
           <div class="mr-4" v-if="user">
-            <span class="text-gray-700 dark:text-gray-300">Hi, {{ user.fullName || user.username }}</span>
+            <span class="text-gray-900 dark:text-gray-300">Hi, {{ user.fullName || user.username }}</span>
           </div>
           <Dropdown :align="right" width="48">
             <template #trigger>
               <button class="relative rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                 <span class="sr-only">Open user menu</span>
-                <ion-icon name="person-circle-outline" class="text-2xl text-gray-700 dark:text-gray-300"></ion-icon>
+                <ion-icon name="person-circle-outline" class="text-2xl text-gray-900 dark:text-gray-300"></ion-icon>
               </button>
             </template>
             <template #content>
@@ -33,7 +33,7 @@
         <div class="lg:hidden">
           <button 
             @click="isMenuOpen = !isMenuOpen"
-            class="p-2 rounded-md text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
+            class="p-2 rounded-md text-gray-900 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none"
           >
             <ion-icon 
               :name="isMenuOpen ? 'close-outline' : 'menu-outline'"

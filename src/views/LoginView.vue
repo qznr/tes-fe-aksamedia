@@ -80,6 +80,7 @@ onUnmounted(() => {
   .glow {
     box-shadow: 0 0 15px 4px rgba(173, 216, 230, 0.6); /* Slightly less intense glow on tablet */
   }
+  
   .dark .glow {
     box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.25);
   }
