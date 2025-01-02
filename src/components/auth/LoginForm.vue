@@ -1,15 +1,28 @@
 <template>
   <form @submit.prevent="handleSubmit" class="space-y-6">
     <div>
-      <TextInput id="username" label="Username" placeholder="Masukkan username" v-model="username" />
+      <TextInput
+        id="username"
+        label="Username"
+        placeholder="Masukkan username"
+        v-model="username"
+        class="dark:lg:bg-transparent lg:bg-transparent dark:bg-dark-bg bg-white dark:text-white dark:lg:text-black dark:border-gray-700 dark:shadow-none"
+      />
     </div>
     <div>
-      <PasswordInput id="password" label="Password" placeholder="Masukkan password" v-model="password" />
+      <PasswordInput
+        id="password"
+        label="Password"
+        placeholder="Masukkan password"
+        v-model="password"
+        class="dark:lg:bg-transparent lg:bg-transparent dark:bg-dark-bg bg-white dark:text-white dark:lg:text-black dark:border-gray-700 dark:shadow-none"
+      />
     </div>
-    <button type="submit" class="w-full text-white bg-black skew-x-[-20deg] hover:bg-opacity-65 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-      <div class="skew-x-[20deg]">
-        Login
-      </div>  
+    <button
+      type="submit"
+      class="w-full text-white dark:lg:bg-black lg:bg-black dark:bg-white bg-black skew-x-[-20deg] hover:bg-opacity-65 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+    >
+      <div class="skew-x-[20deg] dark:lg:text-white lg:text-white dark:text-black">Login</div>
     </button>
   </form>
 </template>

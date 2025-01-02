@@ -11,6 +11,9 @@ export const useLocalStorage = () => {
   const getItem = (key) => {
     try {
       const item = localStorage.getItem(key);
+      if (!item) {
+        console.log("no item found")
+      }
       return item ? JSON.parse(item) : null;
     } catch (error) {
       console.error('Error parsing from localStorage:', error);

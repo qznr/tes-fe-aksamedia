@@ -9,7 +9,7 @@ export const useAuth = () => {
 
   const login = (username, password) => {
     if (username === import.meta.env.VITE_USERNAME && password === import.meta.env.VITE_PASSWORD) {
-      const user = { username: username };
+      const user = { username: username, fullName: '' };
       setItem('user', user);
       isAuthenticated.value = true;
       router.push('/');
