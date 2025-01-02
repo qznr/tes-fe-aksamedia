@@ -1,33 +1,32 @@
 <template>
   <div class="min-h-screen bg-white dark:bg-dark-bg py-6 flex flex-col justify-center sm:py-12 dots">
     <div class="relative py-3 sm:max-w-xl sm:mx-auto">
-
       <div class="absolute inset-0 gradient shadow-lg transform -skew-y-6 sm:skew-y-0 sm:-rotate-6 sm:rounded-3xl glow"></div>
-      <div class="relative px-4 py-10 bg-white shadow-lg sm:rounded-3xl sm:p-20 glow">
+      <div class="relative px-4 py-10 bg-white dark:bg-gray-800 shadow-lg sm:rounded-3xl sm:p-20 dark:shadow-none">
         <div class="max-w-md mx-auto">
           <div>
-            <h1 class="text-2xl font-semibold text-gray-900 text-center">Edit Profile</h1>
+            <h1 class="text-2xl font-semibold text-gray-900 dark:text-white text-center">Edit Profile</h1>
           </div>
-          <div class="divide-y divide-gray-200">
+          <div class="divide-y divide-gray-200 dark:divide-gray-700">
             <div class="py-8 text-base leading-6 space-y-4 text-gray-900 dark:text-gray-300 sm:text-lg sm:leading-7">
               <div class="space-y-1">
-                <label for="fullName" class="block font-medium text-gray-900">Full Name</label>
+                <label for="fullName" class="block font-medium text-gray-900 dark:text-gray-300">Full Name</label>
                 <input
                   id="fullName"
                   v-model="fullName"
                   placeholder="Ketik nama kamu"
                   type="text"
-                  class="w-full px-4 py-2 border border-gray-900 rounded-md focus:ring-2 focus:ring-indigo-200 focus:outline-none bg-transparent text-gray-900"
+                  class="w-full px-4 py-2 border border-gray-900 dark:border-gray-600 rounded-md focus:ring-2 focus:ring-indigo-200 focus:outline-none bg-transparent text-gray-900 dark:text-gray-300"
                 />
               </div>
               <!-- Theme Toggle Section -->
               <div class="space-y-1">
-                <label for="theme" class="block font-medium text-gray-900">Theme</label>
+                <label for="theme" class="block font-medium text-gray-900 dark:text-gray-300">Theme</label>
                 <select
                   id="theme"
                   v-model="selectedTheme"
                   @change="updateTheme(selectedTheme)"
-                  class="w-full px-4 py-2 border border-gray-900 rounded-md focus:ring-2 focus:ring-indigo-200 focus:outline-none bg-transparent text-gray-900"
+                  class="w-full px-4 py-2 text-gray-700 dark:text-gray-200 border rounded-md focus:outline-none focus:ring-2 focus:ring-primary dark:bg-gray-700 dark:border-gray-600"
                 >
                   <option value="system">System</option>
                   <option value="light">Light</option>
@@ -37,24 +36,21 @@
               <div class="flex items-center justify-between mt-4 gap-2">
                 <button
                   @click="resetLocalStorage"
-                  class="bg-red-500 hover:bg-opacity-65 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  class="bg-red-500 hover:bg-opacity-70 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
                   Reset Data
                 </button>
                 <button
                   @click="saveProfile"
-                  class="bg-black hover:bg-opacity-65 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                  class="bg-primary hover:bg-opacity-70 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
                 >
-                <div class="">
                   Save
-                </div>
                 </button>
               </div>
             </div>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </template>
@@ -98,7 +94,6 @@ const resetLocalStorage = () => {
 </script>
 
 <style scoped>
-
 .glow {
   box-shadow: 0 0 20px 5px rgba(173, 216, 230, 0.7);
 }
