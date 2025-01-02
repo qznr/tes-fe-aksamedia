@@ -72,9 +72,9 @@
 </template>
 
 <script setup>
-import { useAuth } from '../../composables/auth';
+import { useAuth } from '../../services/authService';
 import { useRouter, RouterLink } from 'vue-router';
-import { useLocalStorage } from '../../composables/localStorage';
+import { useLocalStorage } from '../../services/localStorageService';
 import Dropdown from '../common/Dropdown.vue';
 import DropdownItem from '../common/DropdownItem.vue';
 import { computed, ref, onMounted, onUnmounted } from 'vue';

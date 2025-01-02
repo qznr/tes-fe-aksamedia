@@ -30,7 +30,7 @@
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue';
 import LoginForm from '../components/auth/LoginForm.vue';
-import { useAuth } from '../composables/auth';
+import { useAuth } from '../services/authService';
 
 const { login } = useAuth();
 

@@ -1,5 +1,5 @@
 import { ref, onMounted, onUnmounted, watch } from 'vue';
-import { useLocalStorage } from './localStorage';
+import { useLocalStorage } from '../services/localStorageService';
 
 export const useTheme = () => {
   const { getItem, setItem } = useLocalStorage();

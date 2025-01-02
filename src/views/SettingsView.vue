@@ -55,13 +55,13 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useLocalStorage } from '../composables/localStorage';
+import { useLocalStorage } from '../services/localStorageService';
 import { useRouter } from 'vue-router';
-import { useTheme } from '../composables/theme'; // Import useTheme
+import { useTheme } from '../theme/theme'; 
 
 const { getItem, setItem } = useLocalStorage();
 const router = useRouter();
-const { theme, updateTheme } = useTheme(); // Get theme and updateTheme
+const { theme, updateTheme } = useTheme();
 
 const fullName = ref('');
 const selectedTheme = ref(theme.value); // Initialize selectedTheme with current theme

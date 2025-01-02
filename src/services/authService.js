@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import { useLocalStorage } from './localStorage';
+import { useLocalStorage } from './localStorageService';
 import { useRouter } from 'vue-router';
 
 export const useAuth = () => {
