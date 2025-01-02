@@ -22,12 +22,14 @@
                 :searchable="true"
                 :searchColumns="['name']"
                 :filterable="true"
-                :filterCategories="{
-                  division: {
-                    categories: ['Mobile Apps', 'QA', 'Full Stack', 'Backend', 'Frontend', 'UI/UX Designer'],
-                    key: 'division.name'
-                  },
-                }"
+                :filterCategories="filterCategories"
+                :searchQuery="sharedSearchQuery"
+                :activeFilters="sharedActiveFilters"
+                :currentPage="sharedCurrentPage"
+                @update:searchQuery="setSharedSearchQuery"
+                @update:activeFilters="setSharedActiveFilters"
+                @update:currentPage="setSharedCurrentPage"
+                :pageSize="sharedPageSize"
               />
             </div>
           </div>
@@ -54,12 +56,14 @@
                       :searchable="true"
                       :searchColumns="['name']"
                       :filterable="true"
-                      :filterCategories="{
-                          division: {
-                              categories: ['Mobile Apps', 'QA', 'Full Stack', 'Backend', 'Frontend', 'UI/UX Designer'],
-                              key: 'division.name'
-                            },
-                         }"
+                      :filterCategories="filterCategories"
+                      :searchQuery="sharedSearchQuery"
+                      :activeFilters="sharedActiveFilters"
+                      :currentPage="sharedCurrentPage"
+                      @update:searchQuery="setSharedSearchQuery"
+                      @update:activeFilters="setSharedActiveFilters"
+                      @update:currentPage="setSharedCurrentPage"
+                      :pageSize="sharedPageSize"
                     />
              </div>
            </div>
@@ -86,16 +90,19 @@
           <div class="bg-white rounded-lg shadow-md p-6 dark:bg-gray-800 dark:shadow-none">
             <h2 class="text-2xl font-bold mb-4 dark:text-white text-gray-900">Employees</h2>
             <div class="rounded-lg overflow-hidden">
-              <DataTable :data="employeesData"
+              <DataTable 
+                :data="employeesData"
                 :columns="columns"
                 :searchColumns="['name']"
                 :filterableColumns="['division']"
-                :filterCategories="{
-                  division: {
-                    categories: ['Mobile Apps', 'QA', 'Full Stack', 'Backend', 'Frontend', 'UI/UX Designer'],
-                    key: 'division.name'
-                  },
-                }"
+                :filterCategories="filterCategories"
+                :searchQuery="sharedSearchQuery"
+                :activeFilters="sharedActiveFilters"
+                :currentPage="sharedCurrentPage"
+                @update:searchQuery="setSharedSearchQuery"
+                @update:activeFilters="setSharedActiveFilters"
+                @update:currentPage="setSharedCurrentPage"
+                :pageSize="sharedPageSize"
               >
                 <template #image="{ item }">
                   <img :src="item.image" alt="Employee Image" class="w-10 h-10 rounded-full">
@@ -137,15 +144,18 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref, onMounted, onUnmounted, reactive, watch, computed } from 'vue';
 import Navbar from '../components/layout/Navbar.vue';
 import DataTable from '../components/common/DataTable.vue';
 import StackedList from '../components/common/StackedList.vue';
 import EmployeeItem from '../components/EmployeeItem.vue';
 import employeesData from '../assets/employees.json';
+import { useLocalStorage } from '../services/localStorageService';
 
-const isMobile = ref(window.innerWidth < 1024); // lg breakpoint in Tailwind
-const isTablet = ref(window.innerWidth >= 1024 && window.innerWidth < 1636); // between lg and 2xl + 100px
+const { getItem, setItem } = useLocalStorage();
+
+const isMobile = ref(window.innerWidth < 1024);
+const isTablet = ref(window.innerWidth >= 1024 && window.innerWidth < 1636);
 
 const checkScreenSize = () => {
   isMobile.value = window.innerWidth < 1024;
@@ -167,6 +177,52 @@ const columns = ref([
   { label: 'Division', key: 'division' },
   { label: 'Position', key: 'position' },
 ]);
+
+const filterCategories = {
+  division: {
+    categories: ['Mobile Apps', 'QA', 'Full Stack', 'Backend', 'Frontend', 'UI/UX Designer'],
+    key: 'division.name'
+  },
+};
+
+// Shared State (using reactive for easier updates)
+const sharedState = reactive({
+  searchQuery: '',
+  activeFilters: [],
+  currentPage: 1,
+  pageSize: 5
+});
+
+// Load initial state from localStorage or use default values
+const storedState = getItem('crudState');
+if (storedState) {
+  Object.assign(sharedState, storedState);
+}
+
+// Watch for changes in sharedState and update localStorage
+watch(sharedState, () => {
+  setItem('crudState', sharedState);
+}, { deep: true });
+
+// Expose shared state variables and update functions to the template
+const sharedSearchQuery = computed(() => sharedState.searchQuery);
+const sharedActiveFilters = computed(() => sharedState.activeFilters);
+const sharedCurrentPage = computed(() => sharedState.currentPage);
+const sharedPageSize = computed(() => sharedState.pageSize);
+
+const setSharedSearchQuery = (value) => {
+  sharedState.searchQuery = value;
+  sharedState.currentPage = 1; // Reset to page 1 when search query changes
+};
+
+const setSharedActiveFilters = (value) => {
+  sharedState.activeFilters = value;
+  sharedState.currentPage = 1; // Reset to page 1 when filters change
+};
+
+const setSharedCurrentPage = (value) => {
+  sharedState.currentPage = value;
+};
 </script>
 
 <style scoped>

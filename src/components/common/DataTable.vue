@@ -4,7 +4,8 @@
       <div class="mb-2 flex justify-start items-center">
         <input
           type="text"
-          v-model="searchQuery"
+          :value="searchQuery"
+          @input="$emit('update:searchQuery', $event.target.value)"
           placeholder="Search..."
           class="border focus:border-primary appearance-none rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline dark:bg-gray-800 dark:border-gray-700 dark:text-gray-200"
         />
@@ -152,7 +153,7 @@
 </template>
 
 <script setup>
-import { defineProps, ref, computed, watch } from 'vue';
+import { defineProps, ref, computed, watch, defineEmits } from 'vue';
 import Dropdown from './Dropdown.vue';
 import DropdownItem from './DropdownItem.vue';
 
@@ -193,11 +194,25 @@ const props = defineProps({
       );
     },
   },
+  searchQuery: {
+    type: String,
+    default: ''
+  },
+  activeFilters: {
+    type: Array,
+    default: () => []
+  },
+  currentPage: {
+    type: Number,
+    default: 1
+  }
 });
 
-const searchQuery = ref('');
-const currentPage = ref(1);
-const activeFilters = ref([]); // Array of active filters, e.g., [{ column: 'division', category: 'HR' }]
+const emit = defineEmits(['update:searchQuery', 'update:activeFilters', 'update:currentPage']);
+
+const searchQuery = ref(props.searchQuery);
+const currentPage = ref(props.currentPage);
+const activeFilters = ref(props.activeFilters);
 
 const applyFilter = (columnKey, category) => {
   const filterExists = activeFilters.value.some(
@@ -205,11 +220,13 @@ const applyFilter = (columnKey, category) => {
   );
   if (!filterExists) {
     activeFilters.value = [...activeFilters.value, { column: columnKey, category }];
+    emit('update:activeFilters', activeFilters.value);
   }
 };
 
 const removeFilter = (index) => {
   activeFilters.value.splice(index, 1);
+  emit('update:activeFilters', activeFilters.value);
 };
 
 const clearFilters = () => {
@@ -267,22 +284,37 @@ const displayedData = computed(() => {
 const previousPage = () => {
   if (currentPage.value > 1) {
     currentPage.value--;
+    emit('update:currentPage', currentPage.value)
   }
 };
 
 const nextPage = () => {
   if (currentPage.value < totalPages.value) {
     currentPage.value++;
+    emit('update:currentPage', currentPage.value)
   }
 };
 
 const goToPage = (page) => {
   currentPage.value = page;
+  emit('update:currentPage', currentPage.value)
 };
 
 // Reset to first page when filtered data changes (due to search or filter)
 watch(filteredData, () => {
   currentPage.value = 1;
+});
+
+watch(() => props.searchQuery, (newVal) => {
+  searchQuery.value = newVal;
+});
+
+watch(() => props.activeFilters, (newVal) => {
+  activeFilters.value = newVal;
+}, { deep: true });
+
+watch(() => props.currentPage, (newVal) => {
+  currentPage.value = newVal;
 });
 </script>
 
