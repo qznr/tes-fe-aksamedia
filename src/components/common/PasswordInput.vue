@@ -17,7 +17,7 @@
         :type="isPasswordHidden ? 'password' : 'text'"
         v-model="modelValue"
         :placeholder="placeholder"
-        class="w-full pr-12 pl-3 py-2 text-gray-800 dark:text-white bg-transparent outline-none border border-black dark:border-gray-700 shadow-sm dark:shadow-none rounded-lg"
+        class="w-full pr-12 pl-3 py-2 text-gray-800 dark:lg:text-black dark:text-white bg-transparent outline-none border border-black dark:border-gray-700 shadow-sm dark:shadow-none rounded-lg"
         required
       />
     </div>
